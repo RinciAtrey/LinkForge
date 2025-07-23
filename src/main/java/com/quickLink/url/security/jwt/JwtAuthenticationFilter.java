@@ -16,6 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
+ * Custom filter
+ * <p>
  *Authentication of request:
  * <p>
  *Get JWT from the header
