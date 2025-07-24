@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtTokenProvider;
 
+    @Autowired
     //load user specific data
     private UserDetailsService userDetailsService;
 
