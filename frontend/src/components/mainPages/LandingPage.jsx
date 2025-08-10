@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import Card from './Card'
+import Card from '../Card'
 import { motion } from "framer-motion";
-import { useStoredContext } from '../contextApi/ContextApi';
+import { useStoredContext } from '../../contextApi/ContextApi';
 
 
 const LandingPage = () => {

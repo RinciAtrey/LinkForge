@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import TextField from './TextField';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
 import toast from 'react-hot-toast';
+import TextField from '../TextField';
+import api from '../../api/api';
+
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -54,6 +55,7 @@ const RegisterPage = () => {
             <hr className='mt-2 mb-5 text-black'/>
 
             <div className="flex flex-col gap-3">
+
                 <TextField
                     label="UserName"
                     required

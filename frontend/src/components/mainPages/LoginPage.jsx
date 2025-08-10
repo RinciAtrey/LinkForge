@@ -1,10 +1,10 @@
 import {useState } from 'react'
 import { useForm } from 'react-hook-form'
-import TextField from './TextField';
+import TextField from '../TextField';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
+import api from '../../api/api';
 import toast from 'react-hot-toast';
-import { useStoredContext } from '../contextApi/ContextApi';
+import { useStoredContext } from '../../contextApi/ContextApi';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ const LoginPage = () => {
             localStorage.setItem("JWT_TOKEN", JSON.stringify(response.token));
             toast.success("Login Successful!");
             reset();
-            navigate("/");
+            navigate("/dashboard");
         } catch (error) {
             console.log(error);
             toast.error("Login Failed!")
