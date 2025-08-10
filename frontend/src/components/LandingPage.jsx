@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import Card from './Card'
 import { motion } from "framer-motion";
+import { useStoredContext } from '../contextApi/ContextApi';
 
 
 const LandingPage = () => {
  const navigate= useNavigate();
+ //whenever the access of token is required
+ const { token }= useStoredContext();
+ console.log("TOKEN FROM LANDING PAGE:" + token)
   const dashBoardNavigateHandler=()=>{
 
   }
