@@ -2,9 +2,13 @@ import { dummyData } from "../../dummyData/data"
 import Graph from "../Graph"
 import {useStoredContext} from "../../contextApi/ContextApi"
 import { useFetchTotalClicks } from "../../hooks/useQuery";
+import { useState } from "react";
+import ShortenPopUp from "../ShortenPopUp";
 
 const DashboardPage = () => {
+  const refetch =false;
   const {token}= useStoredContext();
+  const[shortenPopUp, setShortenPopUp]= useState(false);
 
 //   const query = useFetchTotalClicks(token, onError);
 // console.log(query.data, query.status, query.isFetching);
@@ -37,12 +41,20 @@ const{isLoading:loader, data: totalClicks}= useFetchTotalClicks(token, onError)
           <Graph graphData={totalClicks}/>
         </div>
         <div className="py-5 sm:text-end text-center">
-          <button className="bg-custom-gradient px-4 py-2 rounded-md text-white">
+          <button className="bg-custom-gradient px-4 py-2 rounded-md text-white"
+          onClick={()=>setShortenPopUp(true)}>
             Create a New Short URL
           </button>
         </div>
       </div>
       )}
+
+      <ShortenPopUp
+      refetch={refetch}
+      open={shortenPopUp}
+      setOpen={setShortenPopUp}
+      />
+
     </div>
   )
 }
