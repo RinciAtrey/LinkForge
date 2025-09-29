@@ -37,7 +37,7 @@ const ShortLinkSection = () => {
 
                   <button
                     type="submit"
-                    className="w-full sm:w-auto flex justify-center items-center gap-3 rounded-full px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-800 text-white font-semibold shadow-lg hover:scale-[1.02] transform transition duration-150"
+                    className="w-full sm:w-auto flex justify-center items-center gap-3 rounded-full px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold shadow-lg hover:scale-[1.02] transform transition duration-150"
                   >
                     <span>Get your link for free</span>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>

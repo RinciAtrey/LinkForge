@@ -75,6 +75,19 @@ public class UrlMappingController {
 
     }
 
+    @DeleteMapping("/{shortUrl}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Void> deleteShortUrl(@PathVariable String shortUrl, Principal principal) {
+        String username = principal.getName();
+        boolean deleted = urlMappingService.deleteByShortUrlForUser(shortUrl, username);
+        if (deleted) {
+            return ResponseEntity.noContent().build(); // 204
+        } else {
+            return ResponseEntity.status(404).build(); // not found or not allowed
+        }
+    }
+
+
 }
 
 

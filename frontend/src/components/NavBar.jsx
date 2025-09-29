@@ -1,116 +1,51 @@
-
-// import { useState } from "react";
-// import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { IoIosMenu } from "react-icons/io";
-// import { RxCross2 } from "react-icons/rx";
-// import { useStoredContext } from "../contextApi/ContextApi";
-
-
-// const Navbar = () => {
-//   const navigate = useNavigate();
-//   const { token, setToken } = useStoredContext();
-//   const path = useLocation().pathname;
-//   const [navbarOpen, setNavbarOpen] = useState(false);
-
-//   const onLogOutHandler = () => {
-//     setToken(null);
-//     localStorage.removeItem("JWT_TOKEN");
-//     navigate("/login");
-//   };
-
-//   return (
-//     <div className="h-16 bg-custom-gradient  z-50 flex items-center sticky top-0 ">
-//       <div className="lg:px-14 sm:px-8 px-4 w-full flex justify-between">
-//         <Link to="/">
-//           <h1 className="font-bold text-3xl text-white italic sm:mt-0 mt-2">
-//             Link Forge
-//           </h1>
-//         </Link>
-//         <ul
-//           className={`flex sm:gap-10 gap-4 sm:items-center sm:mt-1 sm:pt-0 pt-3 text-slate-800 sm:static absolute left-0 top-[62px] sm:shadow-none shadow-md ${
-//             navbarOpen ? "h-fit sm:pb-0 pb-5" : "h-0 overflow-hidden"
-//           }  transition-all duration-100 sm:h-fit sm:bg-none  bg-custom-gradient sm:w-fit w-full sm:flex-row flex-col px-4 sm:px-0`}
-//         >
-//           <li className="hover:text-btnColor font-[500]  transition-all duration-150">
-//             <Link
-//               className={`${
-//                 path === "/" ? "text-white font-semibold" : "text-gray-200"
-//               }`}
-//               to="/"
-//             >
-//               Home
-//             </Link>
-//           </li>
-//           <li className="hover:text-btnColor font-[500]  transition-all duration-150">
-//             <Link
-//               className={`${
-//                 path === "/about" ? "text-white font-semibold" : "text-gray-200"
-//               }`}
-//               to="/about"
-//             >
-//               About
-//             </Link>
-//           </li>
-//           {token && (
-//             <li className="hover:text-btnColor font-[500]  transition-all duration-150">
-//             <Link
-//               className={`${
-//                 path === "/dashboard" ? "text-white font-semibold" : "text-gray-200"
-//               }`}
-//               to="/dashboard"
-//             >
-//               Dashboard
-//             </Link>
-//           </li>
-//           )}
-//           {!token && (
-//             <Link to="/register">
-//               <li className=" sm:ml-0 -ml-1 bg-rose-700 text-white  cursor-pointer w-24 text-center font-semibold px-2 py-2 rounded-md  hover:text-slate-300   transition-all duration-150">
-//                 SignUp
-//               </li>
-//             </Link>
-//             )}
-
-//           {token && (
-//             <button
-//              onClick={onLogOutHandler}
-//              className="sm:ml-0 -ml-1 bg-rose-700 text-white  cursor-pointer w-24 text-center font-semibold px-2 py-2 rounded-md  hover:text-slate-300   transition-all duration-150">
-//               LogOut
-//             </button>
-//             )}
-//         </ul>
-//         <button
-//           onClick={() => setNavbarOpen(!navbarOpen)}
-//           className="sm:hidden flex items-center sm:mt-0 mt-2"
-//         >
-//           {navbarOpen ? (
-//             <RxCross2 className="text-white text-3xl" />
-//           ) : (
-//             <IoIosMenu className="text-white text-3xl" />
-//           )}
-//         </button>
-//       </div>
-//     </div>
-//   );
-
-
-
-// };
-
-// export default Navbar;
-
-
-
-
-import { IoIosMenu } from "react-icons/io";
 import { useState } from "react";
+import { IoIosMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useStoredContext } from "../contextApi/ContextApi";
 
 const Navbar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const toggleNavbar = () => setMobileDrawerOpen((s) => !s);
 
-  const toggleNavbar = () => {
-    setMobileDrawerOpen(!mobileDrawerOpen);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
+  const { token, setToken } = useStoredContext();
+
+  const onLogOutHandler = () => {
+    setToken(null);
+    localStorage.removeItem("JWT_TOKEN");
+    navigate("/login");
+  };
+
+  const linkClass = (to) =>
+    `transition-all duration-150 ${
+      path === to ? "text-white font-semibold" : "text-neutral-300"
+    }`;
+
+  
+  const scrollElementIntoViewWithOffset = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const nav = document.querySelector("nav");
+    const navHeight = nav ? nav.getBoundingClientRect().height : 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - navHeight - 8; 
+    window.scrollTo({ top, behavior: "smooth" });
+    return true;
+  };
+
+  
+  const goToSection = (id) => {
+    if (path === "/") {
+      
+      if (!scrollElementIntoViewWithOffset(id)) {
+        setTimeout(() => scrollElementIntoViewWithOffset(id), 60);
+      }
+    } else {
+      navigate("/", { state: { scrollTo: id } });
+    }
+    setMobileDrawerOpen(false);
   };
 
   return (
@@ -121,47 +56,125 @@ const Navbar = () => {
             <img className="h-10 w-10 mr-2" src="" alt="Logo" />
             <span className="text-xl tracking-tight">LinkForge</span>
           </div>
-         <ul  className="hidden lg:flex ml-14 space-x-12">
-      <li><a href="/">Home</a></li>
-       <li><a href="/about">About</a></li>
-       <li><a href="/services">Try LinkForge 
-       </a>
-       </li>
-      </ul>
+
+          {/* Desktop nav links */}
+          <ul className="hidden lg:flex ml-14 space-x-12 items-center">
+            <li>
+              <button onClick={() => goToSection("home")} className={linkClass("/")}>
+                Home
+              </button>
+            </li>
+            <li>
+              <button onClick={() => goToSection("about")} className={linkClass("/about")}>
+                About
+              </button>
+            </li>
+            <li>
+              <button onClick={() => goToSection("services")} className={linkClass("/services")}>
+                Try LinkForge
+              </button>
+            </li>
+
+            {token && (
+              <li>
+                <Link to="/dashboard" className={linkClass("/dashboard")}>
+                  Dashboard
+                </Link>
+              </li>
+            )}
+          </ul>
+
+          
           <div className="hidden lg:flex justify-center space-x-12 items-center">
-            <a href="#" className="py-2 px-3 border rounded-md">
-              Sign In
-            </a>
-            <a
-              href="#"
-              className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md"
-            >
-              Create an account
-            </a>
+            {!token ? (
+              <>
+                <Link to="/login" className="py-2 px-3 border rounded-md">
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md"
+                >
+                  Create an account
+                </Link>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onLogOutHandler}
+                  className="py-2 px-3 border rounded-md"
+                >
+                  Log Out
+                </button>
+              </>
+            )}
           </div>
+         
           <div className="lg:hidden md:flex flex-col justify-end">
-            <button onClick={toggleNavbar}>
-              {mobileDrawerOpen ? <RxCross2 /> : <IoIosMenu />}
+            <button onClick={() => setMobileDrawerOpen((s) => !s)} aria-label="Toggle menu">
+              {mobileDrawerOpen ? <RxCross2 className="text-xl" /> : <IoIosMenu className="text-xl" />}
             </button>
           </div>
         </div>
+
+        
         {mobileDrawerOpen && (
           <div className="fixed right-0 z-20 bg-neutral-900 w-full p-12 flex flex-col justify-center items-center lg:hidden">
-          <ul  className="hidden lg:flex ml-14 space-x-12">
-       <li><a href="/home">Home</a></li>
-       <li><a href="/about">About</a></li>
-       <li><a href="/services">Try LinkForge</a></li>
-       </ul>
-            <div className="flex space-x-6">
-              <a href="#" className="py-2 px-3 border rounded-md">
-                Sign In
-              </a>
-              <a
-                href="#"
-                className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800"
-              >
-                Create an account
-              </a>
+            <ul className="flex flex-col items-center space-y-6 mb-8 w-full">
+              <li>
+                <button onClick={() => goToSection("home")} className={linkClass("/")}>
+                  Home
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goToSection("about")} className={linkClass("/about")}>
+                  About
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goToSection("services")} className={linkClass("/services")}>
+                  Try LinkForge
+                </button>
+              </li>
+
+              {token ? (
+                <li>
+                  <Link to="/dashboard" onClick={() => setMobileDrawerOpen(false)} className={linkClass("/dashboard")}>
+                    Dashboard
+                  </Link>
+                </li>
+              ) : null}
+            </ul>
+
+            <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0 items-center">
+              {!token ? (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileDrawerOpen(false)}
+                    className="py-2 px-3 border rounded-md"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setMobileDrawerOpen(false)}
+                    className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800"
+                  >
+                    Create an account
+                  </Link>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMobileDrawerOpen(false);
+                    onLogOutHandler();
+                  }}
+                  className="py-2 px-3 border rounded-md"
+                >
+                  Log Out
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -171,5 +184,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

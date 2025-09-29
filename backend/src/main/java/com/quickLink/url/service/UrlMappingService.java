@@ -7,6 +7,7 @@ import com.quickLink.url.models.UrlMapping;
 import com.quickLink.url.models.User;
 import com.quickLink.url.repository.ClickEventRepository;
 import com.quickLink.url.repository.UrlMappingRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -102,6 +103,25 @@ public class UrlMappingService {
             clickEventRepository.save(clickEvent);
         }
         return urlMapping;
+    }
+
+
+    @Transactional
+    public boolean deleteByShortUrlForUser(String shortUrl, String username) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        if (urlMapping == null) return false;
+
+        if (!urlMapping.getUser().getUsername().equals(username)) {
+            // Not the owner
+            return false;
+        }
+
+        // If ClickEvent has a FK and cascade remove is NOT configured, delete click events manually:
+        clickEventRepository.deleteByUrlMapping(urlMapping);
+
+        // delete the mapping
+        urlMappingRepository.delete(urlMapping);
+        return true;
     }
 }
 

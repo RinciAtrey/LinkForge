@@ -37,9 +37,18 @@ const Graph = ({ graphData }) => {
             ? userPerDaya
             : [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1],
         backgroundColor:
-         graphData.length > 0 ? "#3b82f6" : "rgba(54, 162, 235, 0.1)",
-        borderColor: "#1D2327",
-        pointBorderColor: "red",
+         graphData.length > 0
+            ? (context) => {
+                const ctx = context.chart.ctx;
+                const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, "rgba(249,115,22,0.95)");
+                gradient.addColorStop(0.6, "rgba(249,115,22,0.65)");
+                gradient.addColorStop(1, "rgba(249,115,22,0.22)");
+                return gradient;
+              }
+            : "rgba(249,115,22,0.08)",
+        borderColor: "rgba(255,120,40,0.95)",
+        pointBorderColor: "rgba(255,255,255,0.9)",
         fill: true,
         tension: 0.4,
         barThickness: 20,
@@ -56,51 +65,69 @@ const Graph = ({ graphData }) => {
     plugins: {
       legend: {
         display: true,
+        labels: {
+          color: "#E6EEF6",
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgba(17,24,39,0.95)",
+        titleColor: "#FFDDBA",
+        bodyColor: "#E6EEF6",
+        padding: 10,
+        cornerRadius: 8,
       },
     },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          // stepSize: 1,
           callback: function (value) {
             if (Number.isInteger(value)) {
               return value.toString();
             }
             return "";
           },
+          color: "#C9D1D9",
+        },
+        grid: {
+          color: "rgba(255,255,255,0.03)",
+          borderColor: "rgba(255,255,255,0.04)",
         },
         title: {
           display: true,
           text: "Number Of Clicks",
           font: {
             family: "Arial",
-            size: 16,
-            weight: "bold",
-            color: "#FF0000",
+            size: 14,
+            weight: "600",
           },
+          color: "#AFC3D9",
         },
       },
       x: {
         beginAtZero: true,
-        // ticks: {
-        //   stepSize: 1,
-        // },
+        ticks: {
+          color: "#C9D1D9",
+        },
+        grid: {
+          color: "rgba(255,255,255,0.02)",
+          borderColor: "rgba(255,255,255,0.04)",
+        },
         title: {
           display: true,
           text: "Date",
           font: {
             family: "Arial",
-            size: 16,
-            weight: "bold",
-            color: "#FF0000",
+            size: 14,
+            weight: "600",
           },
+          color: "#AFC3D9",
         },
       },
     },
   };
 
-  return <Bar className=" w-full" data={data} options={options}></Bar>;
+  return <Bar className="w-full" data={data} options={options}></Bar>;
 };
 
 export default Graph;
