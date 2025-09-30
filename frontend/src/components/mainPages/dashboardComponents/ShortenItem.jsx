@@ -1,5 +1,5 @@
 import { FaExternalLinkAlt, FaRegCalendarAlt } from "react-icons/fa";
-import { MdAnalytics, MdOutlineAdsClick } from "react-icons/md";
+import { MdAnalytics, MdDelete, MdOutlineAdsClick } from "react-icons/md";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import api from "../../../api/api";
@@ -141,6 +141,7 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdDate }) => {
               className="flex cursor-pointer gap-1 items-center bg-neutral-800 py-2 font-semibold shadow px-6 rounded-md text-neutral-100"
             >
               <button>Delete</button>
+               <MdDelete className="text-md" />
             </div>
 
             <div

@@ -1,83 +1,4 @@
-
-// import React from "react";
-// import { FaLink, FaShareAlt, FaEdit, FaChartLine } from "react-icons/fa";
-// const AboutPage = () => {
-//   return (
-//     <div className="lg:px-14 sm:px-8 px-5 min-h-[calc(100vh-64px)] pt-2">
-//       <div className="bg-white w-full sm:py-10 py-8  ">
-//         <h1 className="sm:text-4xl text-slate-800 text-3xl font-bold italic  mb-3">
-//           About LinkForge
-//         </h1>
-//         <p className="text-gray-700 text-sm  mb-8 xl:w-[60%] lg:w-[70%] sm:w-[80%] w-full ">
-//           LinkForge simplifies URL shortening for efficient sharing. Easily
-//           generate, manage, and track your shortened links. Linklytics simplifies
-//           URL shortening for efficient sharing. Easily generate, manage, and
-//           track your shortened links. Linklytics simplifies URL shortening for
-//           efficient sharing. Easily generate, manage, and track your shortened
-//           links. Linklytics simplifies URL shortening for efficient sharing.
-//           Easily generate, manage, and track your shortened links.
-//         </p>
-//         <div className="space-y-5 xl:w-[60%] lg:w-[70%] sm:w-[80%] w-full ">
-//           <div className="flex items-start">
-//             <FaLink className="text-blue-500 text-3xl mr-4" />
-//             <div>
-//               <h2 className="sm:text-2xl font-bold text-slate-800">
-//                 Simple URL Shortening
-//               </h2>
-//               <p className="text-gray-600">
-//                 Experience the ease of creating short, memorable URLs in just a
-//                 few clicks. Our intuitive interface and quick setup process
-//                 ensure you can start shortening URLs without any hassle.
-//               </p>
-//             </div>
-//           </div>
-//           <div className="flex items-start">
-//             <FaShareAlt className="text-green-500 text-3xl mr-4" />
-//             <div>
-//               <h2 className="sm:text-2xl font-bold text-slate-800">
-//                 Powerful Analytics
-//               </h2>
-//               <p className="text-gray-600">
-//                 Gain insights into your link performance with our comprehensive
-//                 analytics dashboard. Track clicks, geographical data, and
-//                 referral sources to optimize your marketing strategies.
-//               </p>
-//             </div>
-//           </div>
-//           <div className="flex items-start">
-//             <FaEdit className="text-purple-500 text-3xl mr-4" />
-//             <div>
-//               <h2 className="sm:text-2xl font-bold text-slate-800">
-//                 Enhanced Security
-//               </h2>
-//               <p className="text-gray-600">
-//                 Rest assured with our robust security measures. All shortened
-//                 URLs are protected with advanced encryption, ensuring your data
-//                 remains safe and secure.
-//               </p>
-//             </div>
-//           </div>
-//           <div className="flex items-start">
-//             <FaChartLine className="text-red-500 text-3xl mr-4" />
-//             <div>
-//               <h2 className="sm:text-2xl font-bold text-slate-800">
-//                 Fast and Reliable
-//               </h2>
-//               <p className="text-gray-600">
-//                 Enjoy lightning-fast redirects and high uptime with our reliable
-//                 infrastructure. Your shortened URLs will always be available and
-//                 responsive, ensuring a seamless experience for your users.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AboutPage;
-
+import React, { useEffect, useState } from "react";
 
 const features = [
   {
@@ -97,8 +18,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M10.172 13.828a4 4 0 010-5.656l1.414-1.414a4 4 0 015.656 5.656l-.707.707" />
       </svg>
     ),
-    text: "Custom Aliases",
-    description: "Create human-readable aliases (example.com/cool-deal) or reserve branded slugs for marketing."
+    text: "Performance",
+    description: "See both overall account trends and granular per-link performance so you know what content drives engagement."
   },
   {
     icon: (
@@ -108,7 +29,7 @@ const features = [
       </svg>
     ),
     text: "Analytics & Click Tracking",
-    description: "See total clicks, referrers, geolocation and device stats to measure link performance."
+    description: "Get detailed click analytics — total clicks plus precise daily breakdowns so you can measure impact over time."
   },
   {
     icon: (
@@ -117,18 +38,35 @@ const features = [
       </svg>
     ),
     text: "Link Management",
-    description: "Organize links into folders, tag them, bulk-edit, and restore previously deleted short links."
+    description: "Manage your links in a clean, organized dashboard with LinkForge."
   }
 ];
 
 const AboutPage = () => {
+  const [cols, setCols] = useState(3);
+
+  useEffect(() => {
+    const getCols = () => {
+      if (typeof window === "undefined") return 1;
+      const w = window.innerWidth;
+      if (w >= 1024) return 3;
+      if (w >= 640) return 2;
+      return 1;
+    };
+    const update = () => setCols(getCols());
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const firstRow = features.slice(0, cols);
+  const rest = features.slice(cols);
+
   return (
-    <div className="relative mt-20 min-h-[640px] px-4 sm:px-8">
+     <div className="relative pt-4 pb-9 min-h-[640px] sm:px-8">
       <div className="text-center">
-        <span className="bg-neutral-900 text-orange-500 rounded-full h-6 text-sm font-medium px-2 py-1 uppercase">
-          Features
-        </span>
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl mt-10 lg:mt-20 tracking-wide">
+        <span></span>
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl mt-10 lg:mt-20 tracking-wide ">
           Easily build{" "}
           <span className="bg-gradient-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">
             your short links
@@ -136,28 +74,78 @@ const AboutPage = () => {
         </h2>
       </div>
 
-      <div className="flex flex-wrap mt-10 lg:mt-20 -mx-3">
-        {features.map((feature, index) => (
-          <div key={index} className="w-full sm:w-1/2 lg:w-1/3 px-3 mb-6">
-            <div className="flex p-6 rounded-2xl bg-neutral-900/5 group hover:bg-neutral-900/10 hover:shadow-xl transform hover:-translate-y-1 transition duration-200 ease-out">
-              <div className="flex mx-6 h-10 w-10 p-2 bg-neutral-900 text-orange-700 justify-center items-center rounded-full ring-1 ring-neutral-800 group-hover:ring-orange-500 shadow-sm transition-all duration-200">
-                {feature.icon}
+      <div className="mt-10 lg:mt-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {firstRow.map((feature, index) => (
+            <div key={index} className="px-3 mb-6">
+              <div className="flex p-6 rounded-2xl bg-neutral-900/5 group hover:bg-neutral-900/10 hover:shadow-xl transform hover:-translate-y-1 transition duration-200 ease-out">
+                <div className="flex mx-6 h-10 w-10 p-2 bg-neutral-900 text-orange-700 justify-center items-center rounded-full ring-1 ring-neutral-800 group-hover:ring-orange-500 shadow-sm transition-all duration-200">
+                  {feature.icon}
+                </div>
+                <div>
+                  <h5 className="mt-1 mb-2 text-xl font-semibold transition-colors duration-200 group-hover:text-orange-400">
+                    {feature.text}
+                  </h5>
+                  <p className="text-md p-0 mb-6 text-neutral-500 max-w-sm leading-relaxed opacity-95">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h5 className="mt-1 mb-2 text-xl font-semibold transition-colors duration-200 group-hover:text-orange-400">
-                  {feature.text}
-                </h5>
-                <p className="text-md p-0 mb-6 text-neutral-500 max-w-sm leading-relaxed opacity-95">
-                  {feature.description}
-                </p>
+            </div>
+          ))}
+        </div>
+
+        {rest.length > 0 && (
+          <div className="mt-6">
+            <div className="hidden lg:block">
+              <div className="w-full px-3">
+                <div className="flex justify-between gap-6">
+                  {rest.map((feature, idx) => (
+                    <div key={idx} className="w-1/3">
+                      <div className="flex p-6 rounded-2xl bg-neutral-900/5 group hover:bg-neutral-900/10 hover:shadow-xl transform hover:-translate-y-1 transition duration-200 ease-out">
+                        <div className="flex mx-6 h-10 w-10 p-2 bg-neutral-900 text-orange-700 justify-center items-center rounded-full ring-1 ring-neutral-800 group-hover:ring-orange-500 shadow-sm transition-all duration-200">
+                          {feature.icon}
+                        </div>
+                        <div>
+                          <h5 className="mt-1 mb-2 text-xl font-semibold transition-colors duration-200 group-hover:text-orange-400">
+                            {feature.text}
+                          </h5>
+                          <p className="text-md p-0 mb-6 text-neutral-500 max-w-sm leading-relaxed opacity-95">
+                            {feature.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="block lg:hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {rest.map((feature, index) => (
+                  <div key={index} className="px-3 mb-6">
+                    <div className="flex p-6 rounded-2xl bg-neutral-900/5 group hover:bg-neutral-900/10 hover:shadow-xl transform hover:-translate-y-1 transition duration-200 ease-out">
+                      <div className="flex mx-6 h-10 w-10 p-2 bg-neutral-900 text-orange-700 justify-center items-center rounded-full ring-1 ring-neutral-800 group-hover:ring-orange-500 shadow-sm transition-all duration-200">
+                        {feature.icon}
+                      </div>
+                      <div>
+                        <h5 className="mt-1 mb-2 text-xl font-semibold transition-colors duration-200 group-hover:text-orange-400">
+                          {feature.text}
+                        </h5>
+                        <p className="text-md p-0 mb-6 text-neutral-500 max-w-sm leading-relaxed opacity-95">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 }
 export default AboutPage;
-
-

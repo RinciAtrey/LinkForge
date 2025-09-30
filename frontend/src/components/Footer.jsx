@@ -1,4 +1,4 @@
-import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -17,14 +17,14 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4 mt-2">
             <a
-              href="#"
+              href="https://github.com/RinciAtrey/LinkForge"
               className="p-2 rounded-md bg-neutral-800/40 hover:bg-orange-600 transition-colors"
               aria-label="Instagram"
             >
-              <FaInstagram size={18} className="text-white" />
+              <FaGithub size={18} className="text-white" />
             </a>
             <a
-              href="#"
+              href="http://www.linkedin.com/in/rinci-atrey-dev018"
               className="p-2 rounded-md bg-neutral-800/40 hover:bg-orange-600 transition-colors"
               aria-label="LinkedIn"
             >
@@ -37,21 +37,6 @@ const Footer = () => {
           <p className="text-sm text-neutral-400">
             Built with care • Privacy friendly • Lightweight
           </p>
-          <div className="mt-2">
-            <a
-              href="/privacy"
-              className="text-sm underline decoration-1 decoration-neutral-700 text-neutral-300 hover:text-white"
-            >
-              Privacy
-            </a>
-            <span className="mx-2 text-neutral-600">•</span>
-            <a
-              href="/terms"
-              className="text-sm underline decoration-1 decoration-neutral-700 text-neutral-300 hover:text-white"
-            >
-              Terms
-            </a>
-          </div>
         </div>
       </div>
     </footer>

@@ -1,7 +1,50 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { useStoredContext } from "../contextApi/ContextApi";
+import { FaLink } from "react-icons/fa";
+import { IoMdAnalytics } from "react-icons/io";
 
 const ShortLinkSection = () => {
+  const { token } = useStoredContext();
+  const navigate = useNavigate();
+
+  const [longUrl, setLongUrl] = useState("");
+
+  const isValidUrl = (value) => {
+    if (!value || typeof value !== "string") return false;
+    try {
+      const u = new URL(value);
+      return u.protocol === "http:" || u.protocol === "https:";
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const handleGetLink = (e) => {
+    e?.preventDefault?.();
+
+    if (token) {
+      navigate("/dashboard");
+      return;
+    }
+
+  
+    if (!longUrl.trim()) {
+      toast.error("Please paste a URL.");
+      return;
+    }
+
+    if (!isValidUrl(longUrl.trim())) {
+      toast.error("Please enter a valid URL.");
+      return;
+    }
+
+    navigate("/login");
+  };
+
   return (
-    <section className="w-full py-16">
+    <section className="w-full mb-20">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-4">
           <h3 className="text-orange-500 text-lg sm:text-xl md:text-2xl font-semibold">
@@ -29,14 +72,17 @@ const ShortLinkSection = () => {
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <input
+                    value={longUrl}
+                    onChange={(e) => setLongUrl(e.target.value)}
                     type="url"
                     placeholder="https://example.com/my-long-url"
                     className="flex-1 rounded-full border border-neutral-200 bg-white px-4 py-3 text-neutral-800 placeholder:text-neutral-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
-                    required
+                    aria-label="Long URL"
                   />
 
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleGetLink}
                     className="w-full sm:w-auto flex justify-center items-center gap-3 rounded-full px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-700 text-white font-semibold shadow-lg hover:scale-[1.02] transform transition duration-150"
                   >
                     <span>Get your link for free</span>
@@ -59,40 +105,27 @@ const ShortLinkSection = () => {
                 <ul className="mt-4 space-y-3">
                   <li className="flex items-start gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-orange-700 ring-1 ring-neutral-800 shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8" />
-                      </svg>
+                      <FaLink/>
+                      {/* icon */}
                     </span>
                     <div>
-                      <div className="text-sm font-medium text-[#022732]">Custom alias</div>
-                      <div className="text-xs text-neutral-500">Use branded slugs for campaigns.</div>
+                      <div className="text-sm font-medium text-[#022732]">Quick Shortening</div>
+                      <div className="text-xs text-neutral-500">Shorten links with one click.</div>
                     </div>
                   </li>
 
                   <li className="flex items-start gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-orange-700 ring-1 ring-neutral-800 shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8" />
-                      </svg>
+                      <IoMdAnalytics/>
+                      {/* icon */}
                     </span>
                     <div>
                       <div className="text-sm font-medium text-[#022732]">Analytics</div>
-                      <div className="text-xs text-neutral-500">Clicks, geo, referrers and devices.</div>
+                      <div className="text-xs text-neutral-500">Track performance.</div>
                     </div>
                   </li>
                 </ul>
-
-                <div className="mt-5">
-                  <a href="#features" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:underline">
-                    Explore all features
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </div>
+                
               </div>
             </aside>
           </div>
@@ -103,5 +136,3 @@ const ShortLinkSection = () => {
 };
 
 export default ShortLinkSection;
-
-

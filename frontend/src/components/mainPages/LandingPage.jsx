@@ -35,7 +35,7 @@ const LandingPage = () => {
       <section id="home">
         <MainSection />
       </section>
-
+       
       <section id="about">
         <AboutPage />
       </section>
@@ -43,6 +43,8 @@ const LandingPage = () => {
       <section id="services">
         <ShortLinkSection />
       </section>
+
+
     </div>
   );
 };

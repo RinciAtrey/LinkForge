@@ -20,9 +20,7 @@ const Navbar = () => {
   };
 
   const linkClass = (to) =>
-    `transition-all duration-150 ${
-      path === to ? "text-white font-semibold" : "text-neutral-300"
-    }`;
+    `transition-all duration-150`;
 
   
   const scrollElementIntoViewWithOffset = (id) => {
@@ -53,7 +51,9 @@ const Navbar = () => {
       <div className="container px-4 mx-auto relative lg:text-sm">
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0">
-            <img className="h-10 w-10 mr-2" src="" alt="Logo" />
+            <div className="h-8 w-8 m-2 rounded-md bg-gradient-to-r from-orange-400 to-orange-700 flex items-center justify-center text-white font-bold">
+              LF
+            </div>
             <span className="text-xl tracking-tight">LinkForge</span>
           </div>
 
@@ -74,6 +74,7 @@ const Navbar = () => {
                 Try LinkForge
               </button>
             </li>
+            
 
             {token && (
               <li>
